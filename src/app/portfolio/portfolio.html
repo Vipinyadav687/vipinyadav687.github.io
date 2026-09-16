@@ -1,20 +1,23 @@
 <div class="portfolio-wrapper">
-  
+
   <!-- LEFT SIDEBAR (Fixed Profile) -->
   <aside class="sidebar">
     <div class="profile-section">
       <div class="avatar-container">
         <img [src]="profile.avatar" alt="Profile Avatar" class="avatar-img">
       </div>
-      
+
       <p class="role-text">{{ profile.role }}</p>
       <h1 class="name-text">{{ profile.name }}</h1>
-      
-      <p class="sidebar-bio">
-        Expert in building scalable enterprise ERP solutions, complex database architecture, and high-performance Angular platforms.
-      </p>
 
-      <button class="btn-download">DOWNLOAD RESUME</button>
+      <p class="sidebar-bio">
+        Expert in building scalable enterprise ERP solutions, complex database architecture, and high-performance
+        Angular platforms.
+      </p>
+      <a href="assets/resume/Vipin_Yadav_Resume.pdf" target="_blank" download="Vipin_Yadav_Resume.pdf"
+        class="btn-download">
+        DOWNLOAD RESUME
+      </a>
 
       <div class="social-links">
         <a href="#" title="Email">✉️</a>
@@ -26,7 +29,7 @@
 
   <!-- RIGHT CONTENT (Independent Scroll Zone) -->
   <main class="content-area">
-    
+
     <!-- Top Navigation (Sticky) -->
     <nav class="top-nav">
       <div class="nav-links">
@@ -59,35 +62,34 @@
     <!-- SKILLS SECTION -->
     <section id="skills" class="content-section">
       <h2 class="section-title">SKILLS</h2>
-      
+
       <div class="skills-card-grid">
         @for (skill of skills; track skill.name) {
-          <div class="premium-skill-card">
-            
-            <!-- Dynamic Icon Logic -->
-            <div class="skill-icon-wrapper">
-              @if (skill.iconType === 'box') {
-                <div class="custom-icon-box" 
-                     [style.background-color]="skill.boxColor" 
-                     [style.color]="skill.textColor || 'white'">
-                  {{ skill.iconText }}
-                </div>
-              } @else if (skill.iconType === 'text') {
-                <div class="custom-icon-text" [style.color]="skill.textColor">
-                  {{ skill.iconText }}
-                </div>
-              } @else {
-                <div class="custom-icon-emoji">
-                  {{ skill.iconText }}
-                </div>
-              }
-            </div>
+        <div class="premium-skill-card">
 
-            <!-- Title & Colored Line -->
-            <span class="skill-card-name">{{ skill.name }}</span>
-            <div class="skill-card-line" [style.background-color]="skill.lineColor"></div>
-            
+          <!-- Dynamic Icon Logic -->
+          <div class="skill-icon-wrapper">
+            @if (skill.iconType === 'box') {
+            <div class="custom-icon-box" [style.background-color]="skill.boxColor"
+              [style.color]="skill.textColor || 'white'">
+              {{ skill.iconText }}
+            </div>
+            } @else if (skill.iconType === 'text') {
+            <div class="custom-icon-text" [style.color]="skill.textColor">
+              {{ skill.iconText }}
+            </div>
+            } @else {
+            <div class="custom-icon-emoji">
+              {{ skill.iconText }}
+            </div>
+            }
           </div>
+
+          <!-- Title & Colored Line -->
+          <span class="skill-card-name">{{ skill.name }}</span>
+          <div class="skill-card-line" [style.background-color]="skill.lineColor"></div>
+
+        </div>
         }
       </div>
     </section>
@@ -97,25 +99,25 @@
       <h2 class="section-title">EXPERIENCE & PROJECTS</h2>
       <div class="projects-grid">
         @for (project of projects; track project.title) {
-          <div class="project-card">
-            
-            @if (project.image) {
-              <img [src]="project.image" alt="Project Screenshot" class="project-image">
-            } @else {
-              <div class="project-image-placeholder"></div>
-            }
+        <div class="project-card">
 
-            <div class="project-content">
-              <!-- <span class="project-type">{{ project.type }}</span> -->
-              <h4>{{ project.title }}</h4>
-              <p>{{ project.description }}</p>
-              <div class="project-tags">
-                @for (tag of project.tags; track tag) {
-                  <span class="tag">{{ tag }}</span>
-                }
-              </div>
+          @if (project.image) {
+          <img [src]="project.image" alt="Project Screenshot" class="project-image">
+          } @else {
+          <div class="project-image-placeholder"></div>
+          }
+
+          <div class="project-content">
+            <!-- <span class="project-type">{{ project.type }}</span> -->
+            <h4>{{ project.title }}</h4>
+            <p>{{ project.description }}</p>
+            <div class="project-tags">
+              @for (tag of project.tags; track tag) {
+              <span class="tag">{{ tag }}</span>
+              }
             </div>
           </div>
+        </div>
         }
       </div>
     </section>
@@ -123,23 +125,24 @@
     <!-- CONTACT SECTION -->
     <section id="contact" class="content-section">
       <h2 class="section-title">CONTACT</h2>
-      <p class="contact-desc">Feel free to reach out for freelance projects, API integrations, or system architecture roles.</p>
-      
+      <p class="contact-desc">Feel free to reach out for freelance projects, API integrations, or system architecture
+        roles.</p>
+
       <div class="contact-grid">
         <div class="contact-item">
           <strong>Email:</strong>
           <span>{{ profile.email }}</span>
         </div>
         <div class="contact-item">
-  <strong>LinkedIn:</strong>
-  <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer">{{ profile.linkedin }}</a>
-</div>
-<div class="contact-item">
-  <strong>GitHub:</strong>
-  <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer">{{ profile.github }}</a>
-</div>
+          <strong>LinkedIn:</strong>
+          <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer">{{ profile.linkedin }}</a>
+        </div>
+        <div class="contact-item">
+          <strong>GitHub:</strong>
+          <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer">{{ profile.github }}</a>
+        </div>
       </div>
-      
+
       <div class="footer-copyright">
         © 2026 {{ profile.name }} - Full Stack Developer
       </div>

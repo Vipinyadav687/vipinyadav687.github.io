@@ -78,6 +78,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin-bottom: 3rem;
+  text-decoration: none;
 }
 
 .btn-download:hover {
@@ -88,6 +89,7 @@
   display: flex;
   gap: 1.5rem;
   font-size: 1.25rem;
+  margin-top: 2rem;
 }
 
 .social-links a {
