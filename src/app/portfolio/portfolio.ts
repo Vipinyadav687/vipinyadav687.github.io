@@ -29,8 +29,8 @@ export class PortfolioComponent {
     role: 'FULL STACK DEVELOPER',
     avatar: 'https://ui-avatars.com/api/?name=Vipin+Yadav&background=2DD4BF&color=fff&size=150',
     email: 'vipinyadav31687@gmail.com',
-    github: 'github.com/vipinyadav',
-    linkedin: 'linkedin.com/in/vipinyadav'
+    github: 'https://vipinyadav687.github.io/',
+    linkedin: 'https://www.linkedin.com/in/vipinyadav16'
   };
 
   about = {
