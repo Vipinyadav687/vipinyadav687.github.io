@@ -131,13 +131,13 @@
           <span>{{ profile.email }}</span>
         </div>
         <div class="contact-item">
-          <strong>LinkedIn:</strong>
-          <span>{{ profile.linkedin }}</span>
-        </div>
-        <div class="contact-item">
-          <strong>GitHub:</strong>
-          <span>{{ profile.github }}</span>
-        </div>
+  <strong>LinkedIn:</strong>
+  <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer">{{ profile.linkedin }}</a>
+</div>
+<div class="contact-item">
+  <strong>GitHub:</strong>
+  <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer">{{ profile.github }}</a>
+</div>
       </div>
       
       <div class="footer-copyright">
