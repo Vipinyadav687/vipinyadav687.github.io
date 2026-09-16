@@ -1,36 +1,58 @@
 <div class="portfolio-wrapper">
-
-  <!-- LEFT SIDEBAR (Fixed Profile) -->
+  <!-- LEFT SIDEBAR -->
+  <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
+    <!-- Subtle ambient glow for the sidebar background -->
+    <div class="sidebar-glow"></div>
+    
     <div class="profile-section">
-      <div class="avatar-container">
-        <img [src]="profile.avatar" alt="Profile Avatar" class="avatar-img">
+      
+      <!-- Upgraded Avatar with Rotating Gradient Ring & Status -->
+      <div class="avatar-wrapper">
+        <div class="avatar-ring"></div>
+        <div class="avatar-container">
+          <img [src]="profile.avatar" alt="Profile Avatar" class="avatar-img">
+        </div>
+        <div class="online-indicator" title="Available for work"></div>
       </div>
 
       <p class="role-text">{{ profile.role }}</p>
       <h1 class="name-text">{{ profile.name }}</h1>
 
       <p class="sidebar-bio">
-        Expert in building scalable enterprise ERP solutions, complex database architecture, and high-performance
-        Angular platforms.
+        Expert in building scalable enterprise ERP solutions, complex database architecture, and high-performance Angular platforms.
       </p>
-      <a href="assets/resume/Vipin_Yadav_Resume.pdf" target="_blank" download="Vipin_Yadav_Resume.pdf"
-        class="btn-download">
-        DOWNLOAD RESUME
+
+      <!-- Upgraded Interactive Download Button -->
+      <a href="assets/resume/Vipin_Yadav_Resume.pdf" target="_blank" download="Vipin_Yadav_Resume.pdf" class="premium-btn">
+        <span>DOWNLOAD RESUME</span>
+        <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
       </a>
 
-      <div class="social-links">
-        <a href="#" title="Email">✉️</a>
-        <a href="#" title="GitHub">🐙</a>
-        <a href="#" title="LinkedIn">💼</a>
+      <!-- Floating Glass Social Icons -->
+      <div class="premium-socials">
+        <a href="mailto:{{ profile.email }}" title="Email" class="social-glass">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+        </a>
+        <a [href]="profile.github" target="_blank" title="GitHub" class="social-glass">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a [href]="profile.linkedin" target="_blank" title="LinkedIn" class="social-glass">
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+        </a>
       </div>
+      
     </div>
   </aside>
 
-  <!-- RIGHT CONTENT (Independent Scroll Zone) -->
+  <!-- RIGHT CONTENT -->
   <main class="content-area">
-
-    <!-- Top Navigation (Sticky) -->
+    
+    <!-- Top Navigation (Sticky Glassmorphism) -->
     <nav class="top-nav">
       <div class="nav-links">
         <a (click)="scrollToSection('about')" [class.active]="activeSection === 'about'">About</a>
@@ -38,14 +60,20 @@
         <a (click)="scrollToSection('projects')" [class.active]="activeSection === 'projects'">Projects</a>
         <a (click)="scrollToSection('contact')" [class.active]="activeSection === 'contact'">Contact</a>
       </div>
-      <button class="btn-back" (click)="onBackClick()">← Back to Login</button>
     </nav>
 
-    <!-- Hero Graphic Placeholder -->
+    <!-- Ultimate Animated Hero Graphic -->
     <div class="hero-graphic-space">
-      <div class="graphic-placeholder">
-        <h2>Enterprise Software Architecture.</h2>
-        <p>Bringing robust backend logic to the modern frontend.</p>
+      <div class="glow-orb orb-1"></div>
+      <div class="glow-orb orb-2"></div>
+      <div class="tech-grid"></div>
+
+      <div class="graphic-placeholder floating-hero">
+        <div class="status-pill">
+          <span class="status-dot"></span> Open to Opportunities
+        </div>
+        <h2 class="gradient-text animated-gradient">Enterprise Software<br>Architecture.</h2>
+        <p class="hero-subtitle">Bringing robust backend logic to the modern frontend.</p>
       </div>
     </div>
 
@@ -61,35 +89,13 @@
 
     <!-- SKILLS SECTION -->
     <section id="skills" class="content-section">
-      <h2 class="section-title">SKILLS</h2>
-
+      <h2 class="section-title">SKILLS & TECH STACK</h2>
       <div class="skills-card-grid">
         @for (skill of skills; track skill.name) {
-        <div class="premium-skill-card">
-
-          <!-- Dynamic Icon Logic -->
-          <div class="skill-icon-wrapper">
-            @if (skill.iconType === 'box') {
-            <div class="custom-icon-box" [style.background-color]="skill.boxColor"
-              [style.color]="skill.textColor || 'white'">
-              {{ skill.iconText }}
-            </div>
-            } @else if (skill.iconType === 'text') {
-            <div class="custom-icon-text" [style.color]="skill.textColor">
-              {{ skill.iconText }}
-            </div>
-            } @else {
-            <div class="custom-icon-emoji">
-              {{ skill.iconText }}
-            </div>
-            }
+          <div class="premium-skill-card" [style.--hover-color]="skill.color">
+            <img [src]="skill.icon" [alt]="skill.name" class="skill-icon">
+            <span class="skill-card-name">{{ skill.name }}</span>
           </div>
-
-          <!-- Title & Colored Line -->
-          <span class="skill-card-name">{{ skill.name }}</span>
-          <div class="skill-card-line" [style.background-color]="skill.lineColor"></div>
-
-        </div>
         }
       </div>
     </section>
@@ -100,20 +106,30 @@
       <div class="projects-grid">
         @for (project of projects; track project.title) {
         <div class="project-card">
-
-          @if (project.image) {
-          <img [src]="project.image" alt="Project Screenshot" class="project-image">
-          } @else {
-          <div class="project-image-placeholder"></div>
-          }
+          <div class="project-image-wrapper">
+            @if (project.image) {
+              <img [src]="project.image" alt="Project Screenshot" class="project-image">
+            } @else {
+              <div class="project-image-placeholder">
+                <span>{{ project.title | slice:0:1 }}</span>
+              </div>
+            }
+          </div>
 
           <div class="project-content">
-            <!-- <span class="project-type">{{ project.type }}</span> -->
-            <h4>{{ project.title }}</h4>
+            <div class="project-header">
+              <h4>{{ project.title }}</h4>
+              <svg class="project-arrow" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
+            
             <p>{{ project.description }}</p>
+            
             <div class="project-tags">
               @for (tag of project.tags; track tag) {
-              <span class="tag">{{ tag }}</span>
+                <span class="tag">{{ tag }}</span>
               }
             </div>
           </div>
@@ -125,28 +141,57 @@
     <!-- CONTACT SECTION -->
     <section id="contact" class="content-section">
       <h2 class="section-title">CONTACT</h2>
-      <p class="contact-desc">Feel free to reach out for freelance projects, API integrations, or system architecture
-        roles.</p>
-
+      <p class="contact-desc">Feel free to reach out for freelance projects, API integrations, or system architecture roles.</p>
+      
       <div class="contact-grid">
-        <div class="contact-item">
-          <strong>Email:</strong>
-          <span>{{ profile.email }}</span>
-        </div>
-        <div class="contact-item">
-          <strong>LinkedIn:</strong>
-          <a href="{{ profile.linkedin }}" target="_blank" rel="noopener noreferrer">{{ profile.linkedin }}</a>
-        </div>
-        <div class="contact-item">
-          <strong>GitHub:</strong>
-          <a href="{{ profile.github }}" target="_blank" rel="noopener noreferrer">{{ profile.github }}</a>
-        </div>
+        
+        <!-- Upgraded Email Card -->
+        <a href="mailto:{{ profile.email }}" class="contact-card">
+          <div class="contact-card-content">
+            <div class="contact-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Email Me</span>
+              <strong class="contact-value">{{ profile.email }}</strong>
+            </div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+
+        <!-- Upgraded LinkedIn Card -->
+        <a [href]="profile.linkedin" target="_blank" rel="noopener noreferrer" class="contact-card">
+          <div class="contact-card-content">
+            <div class="contact-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">Connect on</span>
+              <strong class="contact-value">LinkedIn</strong>
+            </div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+
+        <!-- Upgraded GitHub Card -->
+        <a [href]="profile.github" target="_blank" rel="noopener noreferrer" class="contact-card">
+          <div class="contact-card-content">
+            <div class="contact-icon-wrapper">
+              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </div>
+            <div class="contact-text">
+              <span class="contact-label">View Code on</span>
+              <strong class="contact-value">GitHub</strong>
+            </div>
+          </div>
+          <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
+
       </div>
 
       <div class="footer-copyright">
         © 2026 {{ profile.name }} - Full Stack Developer
       </div>
     </section>
-
   </main>
 </div>
