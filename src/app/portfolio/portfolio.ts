@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,20 +9,15 @@ import { CommonModule } from '@angular/common';
   styleUrl: './portfolio.css'
 })
 export class PortfolioComponent {
-  @Output() backToLogin = new EventEmitter<void>();
 
   activeSection: string = 'about';
-
+constructor(private cdr: ChangeDetectorRef) {}
   scrollToSection(sectionId: string) {
     this.activeSection = sectionId;
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-  }
-
-  onBackClick() {
-    this.backToLogin.emit();
   }
 
   // Profile Data
@@ -94,4 +89,127 @@ export class PortfolioComponent {
       image: ''
     }
   ];
+  
+ // =========================================
+  // --- UPGRADED LOCAL AI ENGINE (100% FREE) ---
+  // =========================================
+  isChatOpen: boolean = false;
+  isTyping: boolean = false;
+  
+  chatMessages: { role: 'user' | 'ai', text: string }[] = [
+    { role: 'ai', text: "Hi! I'm Vipin's custom AI assistant. I have his entire resume memorized. Ask me about his skills, projects, or even how I was built!" }
+  ];
+
+  // 🧠 THE UPGRADED RESUME BRAIN
+  knowledgeBase = [
+    {
+      category: "AI Chatbot & Architecture",
+      // Keywords to trigger when they ask about the bot itself
+      keywords: ['ai', 'bot', 'chatbot', 'chat', 'assistant', 'engine', 'nlp', 'local', 'smart', 'algorithm', 'built', 'make'],
+      weight: 2.5, // High weight so it prioritizes these questions
+      answer: "I am a custom Natural Language Processing (NLP) engine built entirely by Vipin! I run 100% locally in your browser without relying on external paid APIs. This showcases his ability to write smart, efficient, and secure frontend logic."
+    },
+    {
+      category: "Skills & Knowledge",
+      keywords: ['know', 'knows', 'knowledge', 'skill', 'skills', 'tech', 'technology', 'stack', 'frontend', 'backend', 'database', 'angular', 'asp', 'sql', 'bootstrap', 'javascript'],
+      weight: 2,
+      answer: "Vipin specializes in Angular, TypeScript, ASP.NET, and SQL Server. He is also highly proficient in JavaScript (ES6+), HTML5/CSS3, Bootstrap, MySQL, AWS Lightsail, and Git."
+    },
+    {
+      category: "Work Experience",
+      keywords: ['work', 'works', 'working', 'worked', 'experience', 'job', 'jobs', 'company', 'companies', 'history', 'role', 'tcs', 'mmi', 'vconnect'],
+      weight: 2,
+      answer: "Vipin has 4+ years of experience. He currently works at MMI Software's PVT LTD as an Angular/Full Stack Developer. Previously, he was a System Engineer at Tata Consultancy Services (TCS) and a Web Developer at vConnect Systems in Australia."
+    },
+    {
+      category: "Projects",
+      keywords: ['project', 'projects', 'build', 'built', 'made', 'create', 'erp', 'saas', 'car', 'construction', 'loan', 'tax', 'portfolio'],
+      weight: 2,
+      answer: "Some of his key projects include a Cloud-Based ERP (SaaS) for Finance/HR, an Enterprise Tax Billing System, a Car Rental service, and a Construction Web-App using technologies like Angular, ASP.NET, Django, and MongoDB."
+    },
+    {
+      category: "Education",
+      keywords: ['education', 'study', 'studied', 'degree', 'mca', 'bca', 'university', 'college', 'inmantec', 'charles', 'sturt'],
+      weight: 1.5,
+      answer: "Vipin holds a Master of Computer Applications (MCA) and a Bachelor of Computer Applications (BCA) from INMANTEC, Ghaziabad. He also has an IT Career Fundamentals certification from Charles Sturt University, Australia."
+    },
+    {
+      category: "Contact",
+      keywords: ['hire', 'contact', 'email', 'phone', 'number', 'reach', 'resume', 'call', 'mobile'],
+      weight: 2,
+      answer: "You can reach Vipin directly at vipinyadav31687@gmail.com or call him at 8800604503. He is always open to discussing new opportunities!"
+    },
+    {
+      category: "Summary",
+      keywords: ['who', 'about', 'summary', 'profile', 'vipin', 'yadav', 'you'],
+      weight: 1,
+      answer: "Vipin Yadav is a Results-driven Full Stack Developer with 4+ years of experience. He is passionate about building scalable enterprise solutions, cloud-based ERP platforms, and secure RESTful APIs."
+    }
+  ];
+
+  toggleChat() {
+    this.isChatOpen = !this.isChatOpen;
+  }
+
+  sendMessage(inputEl: HTMLInputElement) {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    this.chatMessages.push({ role: 'user', text: text });
+    inputEl.value = ''; 
+    this.isTyping = true;
+    this.cdr.detectChanges(); 
+    this.scrollToBottom();
+
+    setTimeout(() => {
+      this.analyzeAndRespond(text);
+    }, 1200);
+  }
+
+  // ⚙️ THE UPGRADED NLP SCORING ALGORITHM
+  analyzeAndRespond(query: string) {
+    this.isTyping = false;
+    let bestMatch = { score: 0, answer: "" };
+
+    const cleanQuery = query.toLowerCase().replace(/[^\w\s]/gi, '');
+    const userWords = cleanQuery.split(' '); 
+
+    for (const entry of this.knowledgeBase) {
+      let currentScore = 0;
+
+      for (const word of userWords) {
+        if (word.length < 2) continue; 
+        
+        if (entry.keywords.includes(word)) {
+          currentScore += entry.weight;
+        }
+      }
+
+      if (currentScore > bestMatch.score) {
+        bestMatch.score = currentScore;
+        bestMatch.answer = entry.answer;
+      }
+    }
+
+    let finalResponse = "";
+    if (bestMatch.score > 0) {
+      finalResponse = bestMatch.answer;
+    } else {
+      // Upgraded Fallback mentioning the AI and specific targets
+      finalResponse = "That's an interesting question! Try asking me about Vipin's 'skills', 'projects', 'work experience', or 'how this AI works'.";
+    }
+
+    this.chatMessages.push({ role: 'ai', text: finalResponse });
+    this.cdr.detectChanges(); 
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      const chatBody = document.getElementById('chat-body');
+      if (chatBody) {
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+    }, 100);
+  }
 }
