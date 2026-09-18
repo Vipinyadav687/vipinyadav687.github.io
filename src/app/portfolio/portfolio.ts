@@ -11,7 +11,8 @@ import { CommonModule } from '@angular/common';
 export class PortfolioComponent {
 
   activeSection: string = 'about';
-constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {}
+  
   scrollToSection(sectionId: string) {
     this.activeSection = sectionId;
     const element = document.getElementById(sectionId);
@@ -36,7 +37,6 @@ constructor(private cdr: ChangeDetectorRef) {}
     description2: 'With a strong background in frontend development, backend integration, and database management, I am passionate about writing clean, optimized, and maintainable code for production environments. I also hold an IT Career Fundamentals certification from Charles Sturt University, Australia.'
   };
 
-  // Official brand SVGs and Hex Colors for hover glowing effects
   skills = [
     { name: 'Angular', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angular/angular-original.svg', color: '#DD0031' },
     { name: 'TypeScript', icon: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg', color: '#3178C6' },
@@ -90,25 +90,17 @@ constructor(private cdr: ChangeDetectorRef) {}
     }
   ];
   
- // =========================================
-  // --- UPGRADED LOCAL AI ENGINE (100% FREE) ---
+  // =========================================
+  // --- UPGRADED LOCAL AI ENGINE ---
   // =========================================
   isChatOpen: boolean = false;
   isTyping: boolean = false;
   
   chatMessages: { role: 'user' | 'ai', text: string }[] = [
-    { role: 'ai', text: "Hi! I'm Vipin's custom AI assistant. I have his entire resume memorized. Ask me about his skills, projects, or even how I was built!" }
+    { role: 'ai', text: "Hi! I'm Vipin's virtual assistant. I have his entire resume memorized. What would you like to know about his skills or experience?" }
   ];
 
-  // 🧠 THE UPGRADED RESUME BRAIN
   knowledgeBase = [
-    {
-      category: "AI Chatbot & Architecture",
-      // Keywords to trigger when they ask about the bot itself
-      keywords: ['ai', 'bot', 'chatbot', 'chat', 'assistant', 'engine', 'nlp', 'local', 'smart', 'algorithm', 'built', 'make'],
-      weight: 2.5, // High weight so it prioritizes these questions
-      answer: "I am a custom Natural Language Processing (NLP) engine built entirely by Vipin! I run 100% locally in your browser without relying on external paid APIs. This showcases his ability to write smart, efficient, and secure frontend logic."
-    },
     {
       category: "Skills & Knowledge",
       keywords: ['know', 'knows', 'knowledge', 'skill', 'skills', 'tech', 'technology', 'stack', 'frontend', 'backend', 'database', 'angular', 'asp', 'sql', 'bootstrap', 'javascript'],
@@ -123,7 +115,7 @@ constructor(private cdr: ChangeDetectorRef) {}
     },
     {
       category: "Projects",
-      keywords: ['project', 'projects', 'build', 'built', 'made', 'create', 'erp', 'saas', 'car', 'construction', 'loan', 'tax', 'portfolio'],
+      keywords: ['project', 'projects', 'build', 'built', 'made', 'create', 'erp', 'saas', 'car', 'construction', 'loan', 'tax'],
       weight: 2,
       answer: "Some of his key projects include a Cloud-Based ERP (SaaS) for Finance/HR, an Enterprise Tax Billing System, a Car Rental service, and a Construction Web-App using technologies like Angular, ASP.NET, Django, and MongoDB."
     },
@@ -166,7 +158,6 @@ constructor(private cdr: ChangeDetectorRef) {}
     }, 1200);
   }
 
-  // ⚙️ THE UPGRADED NLP SCORING ALGORITHM
   analyzeAndRespond(query: string) {
     this.isTyping = false;
     let bestMatch = { score: 0, answer: "" };
@@ -176,15 +167,12 @@ constructor(private cdr: ChangeDetectorRef) {}
 
     for (const entry of this.knowledgeBase) {
       let currentScore = 0;
-
       for (const word of userWords) {
         if (word.length < 2) continue; 
-        
         if (entry.keywords.includes(word)) {
           currentScore += entry.weight;
         }
       }
-
       if (currentScore > bestMatch.score) {
         bestMatch.score = currentScore;
         bestMatch.answer = entry.answer;
@@ -195,8 +183,7 @@ constructor(private cdr: ChangeDetectorRef) {}
     if (bestMatch.score > 0) {
       finalResponse = bestMatch.answer;
     } else {
-      // Upgraded Fallback mentioning the AI and specific targets
-      finalResponse = "That's an interesting question! Try asking me about Vipin's 'skills', 'projects', 'work experience', or 'how this AI works'.";
+      finalResponse = "That's an interesting question! Try asking me about Vipin's 'skills', 'work experience', 'projects', or 'education'.";
     }
 
     this.chatMessages.push({ role: 'ai', text: finalResponse });
@@ -211,5 +198,39 @@ constructor(private cdr: ChangeDetectorRef) {}
         chatBody.scrollTop = chatBody.scrollHeight;
       }
     }, 100);
+  }
+
+  // =========================================
+  // --- LIVE THEME CUSTOMIZER ---
+  // =========================================
+  isSettingsOpen: boolean = false;
+
+  themes = [
+    { name: 'Cyber Teal', color: '#2DD4BF', primary: '#2DD4BF', dark: '#14b8a6', darker: '#0d9488', secondary: '#60A5FA', rgb: '45, 212, 191' },
+    { name: 'Amethyst', color: '#c084fc', primary: '#c084fc', dark: '#a855f7', darker: '#9333ea', secondary: '#f472b6', rgb: '192, 132, 252' },
+    { name: 'Emerald', color: '#34d399', primary: '#34d399', dark: '#10b981', darker: '#059669', secondary: '#fbbf24', rgb: '52, 211, 153' },
+    { name: 'Blaze', color: '#fb923c', primary: '#fb923c', dark: '#f97316', darker: '#ea580c', secondary: '#f43f5e', rgb: '251, 146, 60' }
+  ];
+
+  fonts = [
+    { name: 'Modern', family: "'Inter', system-ui, sans-serif" },
+    { name: 'Tech Code', family: "'Fira Code', 'Courier New', monospace" },
+    { name: 'Elegant', family: "'Playfair Display', Georgia, serif" }
+  ];
+
+  toggleSettings() {
+    this.isSettingsOpen = !this.isSettingsOpen;
+  }
+
+  changeTheme(theme: any) {
+    document.documentElement.style.setProperty('--primary', theme.primary);
+    document.documentElement.style.setProperty('--primary-dark', theme.dark);
+    document.documentElement.style.setProperty('--primary-darker', theme.darker);
+    document.documentElement.style.setProperty('--secondary', theme.secondary);
+    document.documentElement.style.setProperty('--primary-rgb', theme.rgb);
+  }
+
+  changeFont(font: any) {
+    document.documentElement.style.setProperty('--font-main', font.family);
   }
 }
