@@ -1,7 +1,6 @@
 <div class="portfolio-wrapper">
   <!-- LEFT SIDEBAR -->
-  <!-- LEFT SIDEBAR -->
-  <aside class="sidebar">
+  <aside class="sidebar" id="home">
     <!-- Subtle ambient glow for the sidebar background -->
     <div class="sidebar-glow"></div>
     
@@ -55,6 +54,7 @@
     <!-- Top Navigation (Sticky Glassmorphism) -->
     <nav class="top-nav">
       <div class="nav-links">
+        <a (click)="scrollToSection('home')" [class.active]="activeSection === 'home'" class="mobile-only">Home</a>
         <a (click)="scrollToSection('about')" [class.active]="activeSection === 'about'">About</a>
         <a (click)="scrollToSection('skills')" [class.active]="activeSection === 'skills'">Skills</a>
         <a (click)="scrollToSection('projects')" [class.active]="activeSection === 'projects'">Projects</a>
