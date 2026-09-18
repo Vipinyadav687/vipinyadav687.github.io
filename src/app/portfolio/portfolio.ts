@@ -12,7 +12,10 @@ export class PortfolioComponent {
 
   activeSection: string = 'about';
   constructor(private cdr: ChangeDetectorRef) {}
-  
+  ngOnInit() {
+    this.changeTheme(this.themes[0]); // Applies Cyber Teal automatically
+    this.changeFont(this.fonts[0]);   // Applies Modern font automatically
+  }
   scrollToSection(sectionId: string) {
     this.activeSection = sectionId;
     const element = document.getElementById(sectionId);
