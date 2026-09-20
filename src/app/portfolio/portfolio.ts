@@ -1259,33 +1259,76 @@ export class PortfolioComponent implements OnInit {
       this.simulatedStatus = 'Optimal Multi-Node Scaling';
     }
   }
-  // =========================================
-  // --- 1. AFFECTIVE COMPUTING (EMOTION AI) ---
+
+// =========================================
+  // --- AFFECTIVE COMPUTING (EMOTION AI) ---
   // =========================================
   isEmotionActive: boolean = false;
-  currentMood: string = 'Analyzing...';
+  currentMood: string = '';
   emotionInterval: any;
+  
+  // New Trackers for Behavioral AI
+  lastInteractionTime: number = Date.now();
+  isScrolling: boolean = false;
+  scrollTimeout: any;
+
+  // Track Mouse Movement and Clicks
+  @HostListener('document:mousemove')
+  @HostListener('document:click')
+  onUserActivity() {
+    if (this.isEmotionActive) {
+      this.lastInteractionTime = Date.now();
+    }
+  }
+
+  // Track Scrolling Velocity
+  @HostListener('window:scroll')
+  onUserScroll() {
+    if (this.isEmotionActive) {
+      this.isScrolling = true;
+      this.lastInteractionTime = Date.now();
+      
+      clearTimeout(this.scrollTimeout);
+      this.scrollTimeout = setTimeout(() => {
+        this.isScrolling = false;
+      }, 500); // Stop being "Excited" 500ms after scrolling stops
+    }
+  }
 
   toggleEmotionAI() {
     this.isEmotionActive = !this.isEmotionActive;
+    
     if (this.isEmotionActive) {
-      this.currentMood = 'Calibrating Facial Tensors...';
+      this.currentMood = 'Calibrating Behavioral Tensors...';
+      this.lastInteractionTime = Date.now();
+      
+      // AI evaluates behavior every 800ms, but keeps the mood STABLE if behavior doesn't change
       this.emotionInterval = setInterval(() => {
-        const moods = [
-          { name: 'Focused', color: '#8b5cf6', desc: 'Slowing animations, dimming UI for reading.' },
-          { name: 'Intrigued', color: '#f59e0b', desc: 'Highlighting interactive elements.' },
-          { name: 'Impressed', color: '#10B981', desc: 'Increasing vibrancy and animation speed.' }
-        ];
-        const mood = moods[Math.floor(Math.random() * moods.length)];
-        this.currentMood = `Mood: ${mood.name} (${(Math.random() * 5 + 94).toFixed(1)}%)`;
-        
-        // Dynamically inject the mood color into the CSS root
+        const timeSinceLastAction = Date.now() - this.lastInteractionTime;
+        let mood = { name: '', color: '', desc: '' };
+
+        if (this.isScrolling) {
+          mood = { name: 'Excited', color: '#ec4899', desc: 'High scroll velocity detected. Triggering neon aesthetics.' };
+        } 
+        else if (timeSinceLastAction < 2000) {
+          mood = { name: 'Intrigued', color: '#f59e0b', desc: 'Active cursor movement. Highlighting interactive elements.' };
+        } 
+        else if (timeSinceLastAction < 8000) {
+          mood = { name: 'Focused', color: '#8b5cf6', desc: 'User is reading. Dimming UI and stabilizing animations.' };
+        } 
+        else {
+          mood = { name: 'Relaxed', color: '#14b8a6', desc: 'User is idle. Softening shadows and restoring defaults.' };
+        }
+
+        this.currentMood = `Mood: ${mood.name} - ${mood.desc}`;
         document.documentElement.style.setProperty('--primary', mood.color);
         this.cdr.detectChanges();
-      }, 4000); // Change mood every 4 seconds
+        
+      }, 800); 
+
     } else {
       clearInterval(this.emotionInterval);
-      this.currentMood = 'Emotion Tracking Off';
+      this.currentMood = '';
       document.documentElement.style.setProperty('--primary', '#2DD4BF'); // Reset to default Teal
     }
   }

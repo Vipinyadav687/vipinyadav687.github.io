@@ -713,15 +713,19 @@
     </div>
   }
   
-  <!-- Hook a trigger for the WASM subtitles into your Jarvis button -->
-  <!-- (Add this temporary button next to your Jarvis mic button to test it easily) -->
-  <!-- <button class="mock-btn" style="position: fixed; bottom: 20px; left: 20px; z-index: 10000; width: auto;" (click)="simulateWasmTranscription()">
-    🎙️ Test WASM Subtitles
-  </button> -->
   <!-- Chaos Monkey Fullscreen Alert -->
   @if (isChaosActive) {
     <div class="chaos-overlay">
       <h1 class="chaos-text glitch" [attr.data-text]="chaosMessage">{{ chaosMessage }}</h1>
+    </div>
+  }
+  <!-- =========================================
+       EMOTION AI LIVE HUD NOTIFICATION
+       ========================================= -->
+  @if (isEmotionActive && currentMood) {
+    <div class="emotion-hud">
+      <span class="pulsing-dot"></span>
+      <div class="emotion-text">{{ currentMood }}</div>
     </div>
   }
   <!-- AI CHATBOT WIDGET -->
