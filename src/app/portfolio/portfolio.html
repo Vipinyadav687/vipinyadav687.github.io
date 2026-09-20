@@ -1,8 +1,23 @@
 <div class="portfolio-wrapper">
+ <!-- =========================================
+       GLOBAL "JARVIS" HOLOGRAM CONTROLLER
+       ========================================= -->
+  <div class="jarvis-widget" [class.listening]="isJarvisListening">
+    @if (!isJarvisListening && !jarvisFeedback) {
+      <div class="jarvis-hint">Press <strong>Shift + V</strong> to talk</div>
+    }
+    @if (jarvisFeedback) {
+      <div class="jarvis-tooltip">{{ jarvisFeedback }}</div>
+    }
+    <button class="jarvis-btn hologram-btn" (click)="startJarvis()" title="Voice Navigation">
+      <!-- The Real-time Audio Waveform Canvas -->
+      <canvas #hologramCanvas class="hologram-canvas"></canvas>
+    </button>
+  </div>
+
   <!-- LEFT SIDEBAR -->
   <aside class="sidebar" id="home">
     <div class="sidebar-glow"></div>
-    
     <div class="profile-section">
       <div class="avatar-wrapper">
         <div class="avatar-ring"></div>
@@ -11,32 +26,48 @@
         </div>
         <div class="online-indicator" title="Available for work"></div>
       </div>
-
       <p class="role-text">{{ profile.role }}</p>
       <h1 class="name-text">{{ profile.name }}</h1>
-
       <p class="sidebar-bio">
-        Expert in building scalable enterprise ERP solutions, complex database architecture, and high-performance Angular platforms.
+        Expert in building scalable enterprise ERP solutions, complex database architecture, and high-performance
+        Angular platforms.
       </p>
-
-      <a href="assets/resume/Vipin_Yadav_Resume.pdf" target="_blank" download="Vipin_Yadav_Resume.pdf" class="premium-btn">
-        <span>DOWNLOAD RESUME</span>
-        <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-          <polyline points="7 10 12 15 17 10"></polyline>
-          <line x1="12" y1="15" x2="12" y2="3"></line>
-        </svg>
-      </a>
-
+      <!-- Predictive UX Resume Button -->
+      <div class="resume-wrapper" style="position: relative; display: inline-block; margin-bottom: 3.5rem;">
+        <a href="assets/resume/Vipin_Yadav_Resume.pdf" target="_blank" download="Vipin_Yadav_Resume.pdf"
+          class="premium-btn" style="margin-bottom: 0;" (mouseenter)="onResumeHover()" (mouseleave)="onResumeLeave()">
+          <span>DOWNLOAD RESUME</span>
+          <svg class="btn-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2"
+            fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </a>
+        @if (showResumeHint) {
+        <div class="hesitation-tooltip">Updated just this week! ATS-friendly.</div>
+        }
+      </div>
       <div class="premium-socials">
         <a href="mailto:{{ profile.email }}" title="Email" class="social-glass">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
         </a>
         <a [href]="profile.github" target="_blank" title="GitHub" class="social-glass">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+            </path>
+          </svg>
         </a>
         <a [href]="profile.linkedin" target="_blank" title="LinkedIn" class="social-glass">
-          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+          <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
         </a>
       </div>
     </div>
@@ -51,6 +82,7 @@
         <a (click)="scrollToSection('skills')" [class.active]="activeSection === 'skills'">Skills</a>
         <a (click)="scrollToSection('projects')" [class.active]="activeSection === 'projects'">Projects</a>
         <a (click)="scrollToSection('contact')" [class.active]="activeSection === 'contact'">Contact</a>
+        <a (click)="scrollToSection('architecture')" [class.active]="activeSection === 'architecture'">Architecture</a>
       </div>
     </nav>
 
@@ -59,15 +91,12 @@
       <div class="glow-orb orb-2"></div>
       <div class="tech-grid"></div>
       <div class="graphic-placeholder floating-hero">
-        <div class="status-pill">
-          <span class="status-dot"></span> Open to Opportunities
-        </div>
+        <div class="status-pill"><span class="status-dot"></span> Open to Opportunities</div>
         <h2 class="gradient-text animated-gradient">Enterprise Software<br>Architecture.</h2>
         <p class="hero-subtitle">Bringing robust backend logic to the modern frontend.</p>
       </div>
     </div>
 
-    <!-- ABOUT SECTION -->
     <section id="about" class="content-section">
       <h2 class="section-title">ABOUT</h2>
       <h3 class="section-subtitle">{{ about.title }}</h3>
@@ -77,38 +106,63 @@
       </div>
     </section>
 
-    <!-- SKILLS SECTION -->
+    <!-- SHAPE-SHIFTING SKILLS SECTION -->
+  <!-- =========================================
+         NEURAL KNOWLEDGE GRAPH (Skills)
+         ========================================= -->
     <section id="skills" class="content-section">
-      <h2 class="section-title">SKILLS & TECH STACK</h2>
-      <div class="skills-card-grid">
-        @for (skill of skills; track skill.name) {
-          <div class="premium-skill-card" [style.--hover-color]="skill.color">
-            <img [src]="skill.icon" [alt]="skill.name" class="skill-icon">
-            <span class="skill-card-name">{{ skill.name }}</span>
-          </div>
-        }
+      <h2 class="section-title">NEURAL TECH STACK</h2>
+      <p class="contact-desc">My technology stack modeled as a physics-based neural network. Move your mouse to interact with the nodes.</p>
+      
+      <div class="neural-canvas-wrapper">
+        <canvas #skillsCanvas 
+                class="neural-canvas"
+                (mousemove)="onCanvasMouseMove($event)" 
+                (mouseleave)="onCanvasMouseLeave()">
+        </canvas>
       </div>
     </section>
 
-    <!-- PROJECTS SECTION -->
+    <!-- PROJECTS & MATCHER SECTION -->
     <section id="projects" class="content-section">
       <h2 class="section-title">EXPERIENCE & PROJECTS</h2>
+
+      <div class="inline-matcher-bar">
+        <div class="matcher-input-row">
+          <input #matcherInput type="text"
+            placeholder="Type a skill or project idea to auto-scroll to the right project..."
+            (keyup.enter)="analyzeMatch(matcherInput.value)">
+          <button class="matcher-btn" (click)="analyzeMatch(matcherInput.value)">Analyze Intent</button>
+        </div>
+
+        @if (hasAnalyzed) {
+        <div class="matcher-results-compact">
+          @if (isAnalyzing) {
+          <div class="loading-spinner-small"></div>
+          <span class="analyzing-text">Scanning portfolio...</span>
+          } @else {
+          <div class="match-score-badge">{{ matchPercentage }}% Match</div>
+          <p class="match-feedback-compact">{{ matchFeedback }}</p>
+          }
+        </div>
+        }
+      </div>
+
       <div class="projects-grid">
-        @for (project of projects; track project.title) {
-        <div class="project-card">
+        @for (project of visibleProjects; track project.title) {
+        <div class="project-card" [class.dimmed]="project.isHighlighted === false" [id]="'project-card-' + $index">
           <div class="project-image-wrapper">
             @if (project.image) {
-              <img [src]="project.image" alt="Project Screenshot" class="project-image">
+            <img [src]="project.image" alt="Project Screenshot" class="project-image">
             } @else {
-              <div class="project-image-placeholder">
-                <span>{{ project.title | slice:0:1 }}</span>
-              </div>
+            <div class="project-image-placeholder"><span>{{ project.title | slice:0:1 }}</span></div>
             }
           </div>
           <div class="project-content">
             <div class="project-header">
               <h4>{{ project.title }}</h4>
-              <svg class="project-arrow" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="project-arrow" viewBox="0 0 24 24" width="22" height="22" stroke="currentColor"
+                stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
@@ -116,7 +170,7 @@
             <p>{{ project.description }}</p>
             <div class="project-tags">
               @for (tag of project.tags; track tag) {
-                <span class="tag">{{ tag }}</span>
+              <span class="tag">{{ tag }}</span>
               }
             </div>
           </div>
@@ -124,77 +178,415 @@
         }
       </div>
     </section>
+    <!-- =========================================
+         CTO ARCHITECTURE SIMULATOR 
+         ========================================= -->
+    <section id="architecture" class="content-section">
+      <h2 class="section-title">SYSTEM ARCHITECTURE SIMULATOR</h2>
+      <p class="contact-desc">Describe a business problem, and my local AI will instantly generate the optimal system
+        architecture diagram.</p>
 
-    <!-- CONTACT SECTION -->
-    <section id="contact" class="content-section">
-      <h2 class="section-title">CONTACT</h2>
-      <p class="contact-desc">Feel free to reach out for freelance projects, API integrations, or system architecture roles.</p>
-      
-      <div class="contact-grid">
-        <a href="mailto:{{ profile.email }}" class="contact-card">
-          <div class="contact-card-content">
-            <div class="contact-icon-wrapper">
-              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+      <div class="arch-container">
+        <div class="arch-input-group">
+          <input #archInput type="text"
+            placeholder="e.g. 'I need a highly secure platform for B2B enterprise clients...'"
+            (keyup.enter)="generateArchitecture(archInput.value)">
+          <button class="premium-btn" style="margin:0;" (click)="generateArchitecture(archInput.value)">
+            <span>GENERATE DIAGRAM</span>
+          </button>
+        </div>
+
+        @if (isGeneratingArch) {
+        <div class="arch-loading">
+          <div class="scanning-bar"></div>
+          <p style="margin:0;">Analyzing business logic and drafting system architecture...</p>
+        </div>
+        }
+
+        @if (activeArchitecture && !isGeneratingArch) {
+        <div id="arch-canvas-display" class="arch-canvas">
+          <h3 class="arch-title">{{ activeArchitecture.title }}</h3>
+          <p class="arch-desc">{{ activeArchitecture.desc }}</p>
+
+          <div class="diagram-grid">
+
+            <!-- Front End Node -->
+            <div class="arch-node client-node">
+              <span class="node-label">Client Interface</span>
+              <strong>{{ activeArchitecture.frontend }}</strong>
             </div>
-            <div class="contact-text">
-              <span class="contact-label">Email Me</span>
-              <strong class="contact-value">{{ profile.email }}</strong>
+
+            <!-- Animated Data Flow Line 1 -->
+            <svg class="arch-line line-1" viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line x1="0" y1="10" x2="100" y2="10"></line>
+            </svg>
+
+            <!-- Gateway Node -->
+            <div class="arch-node gateway-node">
+              <span class="node-label">API Gateway</span>
+              <strong>{{ activeArchitecture.gateway }}</strong>
             </div>
+
+            <!-- Animated Data Flow Line 2 -->
+            <svg class="arch-line line-2" viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line x1="0" y1="10" x2="100" y2="10"></line>
+            </svg>
+
+            <!-- Back End Node -->
+            <div class="arch-node backend-node">
+              <span class="node-label">Backend Logic</span>
+              <strong>{{ activeArchitecture.backend }}</strong>
+            </div>
+
+            <!-- Animated Data Flow Line 3 -->
+            <svg class="arch-line line-3" viewBox="0 0 100 20" preserveAspectRatio="none">
+              <line x1="0" y1="10" x2="100" y2="10"></line>
+            </svg>
+
+            <!-- Database Node -->
+            <div class="arch-node db-node">
+              <span class="node-label">Data Layer</span>
+              <strong>{{ activeArchitecture.database }}</strong>
+            </div>
+
           </div>
-          <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-
-        <a [href]="profile.linkedin" target="_blank" rel="noopener noreferrer" class="contact-card">
-          <div class="contact-card-content">
-            <div class="contact-icon-wrapper">
-              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-            </div>
-            <div class="contact-text">
-              <span class="contact-label">Connect on</span>
-              <strong class="contact-value">LinkedIn</strong>
-            </div>
-          </div>
-          <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-
-        <a [href]="profile.github" target="_blank" rel="noopener noreferrer" class="contact-card">
-          <div class="contact-card-content">
-            <div class="contact-icon-wrapper">
-              <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-            </div>
-            <div class="contact-text">
-              <span class="contact-label">View Code on</span>
-              <strong class="contact-value">GitHub</strong>
-            </div>
-          </div>
-          <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-        </a>
-      </div>
-
-      <div class="footer-copyright">
-        © 2026 {{ profile.name }} - Full Stack Developer
+        </div>
+        }
       </div>
     </section>
+
+    <!-- =========================================
+         TECH LEAD CODE REVIEWER 
+         ========================================= -->
+    <section id="code-reviewer" class="content-section">
+      <h2 class="section-title">AI CODE REVIEWER</h2>
+      <p class="contact-desc">Want to see my code standards? Paste a messy Angular/TS snippet below, and my local AI
+        will refactor it.</p>
+
+      <div class="code-reviewer-card">
+        <div class="editor-header">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="filename">app.component.ts</span>
+        </div>
+
+        <textarea #codeInput class="code-input" rows="5"
+          placeholder="e.g. ngOnInit() { setTimeout(() => { ... }, 1000); let data: any; }"></textarea>
+
+        <button class="premium-btn" style="margin: 1rem 0 0 0; width: 100%; justify-content: center;"
+          (click)="analyzeCode(codeInput.value)">
+          <span>RUN CODE REVIEW</span>
+        </button>
+
+        @if (hasReviewed) {
+        <div class="review-results">
+          @if (isReviewingCode) {
+          <div class="arch-loading">
+            <div class="scanning-bar"></div>
+            <p style="margin:0; color: var(--primary);">Analyzing AST and applying SOLID principles...</p>
+          </div>
+          } @else {
+          <div class="feedback-list">
+            @for (feedback of codeFeedback; track feedback) {
+            <div class="feedback-item">{{ feedback }}</div>
+            }
+          </div>
+          <div class="refactored-box">
+            <div class="box-label">Refactored Output:</div>
+            <pre><code>{{ refactoredCode }}</code></pre>
+          </div>
+          }
+        </div>
+        }
+      </div>
+    </section>
+    <!-- =========================================
+         GENERATIVE UI BUILDER 
+         ========================================= -->
+    <section id="generative-ui" class="content-section">
+      <h2 class="section-title">GENERATIVE UI ENGINE</h2>
+      <p class="contact-desc">Experience real-time component generation. Ask my AI to build a UI element, and it will
+        write the code and render it live on the screen.</p>
+
+      <div class="gen-ui-container">
+        <div class="arch-input-group">
+          <input #uiInput type="text" placeholder="e.g. 'Build a dark-mode pricing card' or 'Create a login form'"
+            (keyup.enter)="generateUI(uiInput.value)">
+          <button class="premium-btn" style="margin:0;" (click)="generateUI(uiInput.value)">
+            <span>GENERATE UI</span>
+          </button>
+        </div>
+
+        @if (isGeneratingUI) {
+        <div class="arch-loading">
+          <div class="scanning-bar"></div>
+          <p style="margin:0;">Synthesizing DOM elements and compiling SCSS...</p>
+        </div>
+        }
+
+        @if (generatedComponent && !isGeneratingUI) {
+        <div id="ui-preview-window" class="ui-workspace">
+
+          <!-- LEFT SIDE: The Code Output -->
+          <div class="ui-code-panel">
+            <div class="panel-header"><span>generated-component.html</span></div>
+            <pre><code>{{ generatedCodeString }}</code></pre>
+          </div>
+
+          <!-- RIGHT SIDE: The Live Render -->
+          <div class="ui-render-panel">
+            <div class="panel-header"><span>Live Render Preview</span></div>
+            <div class="render-canvas">
+
+              @switch (generatedComponent) {
+              @case ('pricing') {
+              <div class="ai-pricing-card">
+                <h3>Pro Plan</h3>
+                <div class="price">$29<span>/mo</span></div>
+                <ul>
+                  <li><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                      fill="none">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg> Unlimited Projects</li>
+                  <li><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                      fill="none">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg> Advanced Analytics</li>
+                  <li><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2"
+                      fill="none">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg> 24/7 Support</li>
+                </ul>
+                <button class="mock-btn">Upgrade Now</button>
+              </div>
+              }
+              @case ('login') {
+              <div class="ai-login-form">
+                <h3>Welcome Back</h3>
+                <input type="email" placeholder="Email Address">
+                <input type="password" placeholder="Password">
+                <button class="mock-btn">Sign In</button>
+                <p>Forgot password?</p>
+              </div>
+              }
+              @case ('dashboard') {
+              <div class="ai-stat-card">
+                <div class="stat-header">Total Revenue <svg viewBox="0 0 24 24" width="16" height="16"
+                    stroke="currentColor" stroke-width="2" fill="none">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg></div>
+                <div class="stat-value">$45,231.89</div>
+                <div class="stat-trend positive">↑ +20.1% from last month</div>
+              </div>
+              }
+              }
+
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+    </section>
+    <!-- =========================================
+         ATS RESUME MATCHER & PROPOSAL
+         ========================================= -->
+    <section id="ats-matcher" class="content-section">
+      <h2 class="section-title">ATS JOB MATCHER</h2>
+      <p class="contact-desc">Hiring? Paste your Job Description below. My local AI will instantly analyze compatibility and generate a custom proposal.</p>
+
+      <div class="ats-container">
+        <textarea #jdInput class="smart-textarea" rows="6" placeholder="Paste your Job Description here... (e.g. 'Looking for a Senior Angular Developer with .NET and SQL experience to build enterprise SaaS')"></textarea>
+        
+        <button class="premium-btn" style="margin-top: 1rem; width: 100%; justify-content: center;" (click)="analyzeJobDescription(jdInput.value)">
+          <span>RUN ATS ANALYSIS</span>
+        </button>
+
+        @if (isAnalyzingJD) {
+          <div class="arch-loading" style="margin-top: 2rem;">
+            <div class="scanning-bar"></div>
+            <p style="margin:0;">Scanning JD requirements and matching against Vipin's career matrix...</p>
+          </div>
+        }
+
+        @if (atsScore > 0 && !isAnalyzingJD) {
+          <div id="ats-result" class="ats-result-card">
+            <div class="ats-header">
+              
+              <!-- Circular Progress Score -->
+              <div class="score-circle">
+                <svg viewBox="0 0 36 36" class="circular-chart">
+                  <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                  <path class="circle" [attr.stroke-dasharray]="atsScore + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <div class="score-text">{{ atsScore }}%</div>
+              </div>
+              
+              <div class="ats-summary">
+                <h3>Compatibility Score</h3>
+                <p>Based on your JD, I am a highly qualified candidate for this role.</p>
+                <div class="matched-tags">
+                  @for (skill of matchedKeywords; track skill) {
+                    <span class="tag matching-tag">✓ {{ skill | uppercase }}</span>
+                  }
+                </div>
+              </div>
+            </div>
+            
+            <div class="proposal-box">
+              <div class="box-label">AI-Generated Cover Letter:</div>
+              <p class="proposal-text">{{ customProposal }}</p>
+              
+              <!-- Sends the generated proposal straight to your WhatsApp! -->
+              <button class="mock-btn" style="width: auto; padding: 0.6rem 1.5rem; font-size: 0.85rem;" (click)="sendWhatsApp('Hiring Manager', customProposal)">
+                Send Proposal to Vipin via WhatsApp
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+    <!-- REAL-TIME SENTIMENT CONTACT SECTION -->
+    <section id="contact" class="content-section">
+      <h2 class="section-title">CONTACT</h2>
+      <p class="contact-desc">Feel free to reach out for freelance projects, API integrations, or system architecture
+        roles.</p>
+
+      <div class="contact-layout">
+        <div class="smart-contact-card" [ngClass]="sentimentType">
+          <div class="sentiment-header">
+            <span class="sentiment-icon">{{ sentimentIcon }}</span>
+            <p class="sentiment-text">{{ sentimentMessage }}</p>
+          </div>
+          <div class="form-group">
+            <!-- Added #contactName here -->
+            <input #contactName type="text" placeholder="Your Name or Company" class="smart-input">
+          </div>
+          <div class="form-group">
+            <textarea #contactMsg rows="4" placeholder="Type your message here..." class="smart-textarea"
+              (input)="analyzeSentiment(contactMsg.value)"></textarea>
+          </div>
+
+          <!-- Changed back to a button that calls sendWhatsApp() -->
+          <button class="premium-btn send-msg-btn" style="width: 100%; justify-content: center;"
+            (click)="sendWhatsApp(contactName.value, contactMsg.value)">
+            <span>SEND VIA WHATSAPP</span>
+          </button>
+        </div>
+
+        <div class="contact-grid-vertical">
+          <a href="mailto:{{ profile.email }}" class="contact-card">
+            <div class="contact-card-content">
+              <div class="contact-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                  <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">Email Me</span>
+                <strong class="contact-value">{{ profile.email }}</strong>
+              </div>
+            </div>
+            <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+              fill="none">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a [href]="profile.linkedin" target="_blank" rel="noopener noreferrer" class="contact-card">
+            <div class="contact-card-content">
+              <div class="contact-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">Connect on</span>
+                <strong class="contact-value">LinkedIn</strong>
+              </div>
+            </div>
+            <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+              fill="none">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a [href]="profile.github" target="_blank" rel="noopener noreferrer" class="contact-card">
+            <div class="contact-card-content">
+              <div class="contact-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none">
+                  <path
+                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                  </path>
+                </svg>
+              </div>
+              <div class="contact-text">
+                <span class="contact-label">View Code</span>
+                <strong class="contact-value">GitHub</strong>
+              </div>
+            </div>
+            <svg class="contact-arrow" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2"
+              fill="none">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-copyright">© 2026 {{ profile.name }} - Full Stack Developer</div>
+    </section>
+
   </main>
 
   <!-- =========================================
-       AI CHATBOT WIDGET (BOTTOM RIGHT)
+       GOD-TIER EXPERIMENTAL AI PANEL
        ========================================= -->
+  <div class="experimental-ai-panel">
+    <h3 class="panel-title">Experimental Tech Limits</h3>
+    
+    <!-- Chaos Monkey -->
+    <!-- <button class="danger-btn" (click)="triggerChaosMonkey()">
+      ☠️ Simulate DOM Cyber Attack
+    </button> -->
+    
+    <!-- Jedi Motion Tracking -->
+    <button class="jedi-btn" (click)="enableJediMode()" [class.active]="isJediModeActive">
+      👋 {{ isJediModeActive ? 'Disable' : 'Enable' }} Hand Gestures
+    </button>
+    
+    <div class="webcam-container" [class.show]="isJediModeActive">
+      <video #webcamVideo autoplay playsinline muted></video>
+      <div class="webcam-overlay">{{ jediFeedback }}</div>
+    </div>
+  </div>
+
+  <!-- Chaos Monkey Fullscreen Alert -->
+  @if (isChaosActive) {
+    <div class="chaos-overlay">
+      <h1 class="chaos-text glitch" [attr.data-text]="chaosMessage">{{ chaosMessage }}</h1>
+    </div>
+  }
+  <!-- AI CHATBOT WIDGET -->
   <div class="ai-chatbot-container">
     <button class="chat-toggle-btn" (click)="toggleChat()" [class.active]="isChatOpen">
       @if (!isChatOpen) {
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+        <path
+          d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z">
+        </path>
+      </svg>
       } @else {
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
       }
     </button>
-
     <div class="chat-window" [class.open]="isChatOpen">
       <div class="chat-header">
-        <div class="chat-avatar">
-          <img [src]="profile.avatar" alt="AI Avatar">
-          <span class="online-dot"></span>
-        </div>
+        <div class="chat-avatar"><img [src]="profile.avatar" alt="AI Avatar"><span class="online-dot"></span></div>
         <div class="chat-title">
           <h4>Vipin's AI</h4>
           <p>Ask me anything</p>
@@ -202,77 +594,74 @@
       </div>
       <div class="chat-body" id="chat-body">
         @for (msg of chatMessages; track msg) {
-          <div class="message-wrapper" [class.user]="msg.role === 'user'">
-            <div class="message-bubble">{{ msg.text }}</div>
-          </div>
+        <div class="message-wrapper" [class.user]="msg.role === 'user'">
+          <div class="message-bubble">{{ msg.text }}</div>
+        </div>
         }
         @if (isTyping) {
-          <div class="message-wrapper">
-            <div class="message-bubble typing-indicator">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
+        <div class="message-wrapper">
+          <div class="message-bubble typing-indicator"><span></span><span></span><span></span></div>
+        </div>
         }
       </div>
       <div class="chat-footer">
         <input #chatInput type="text" placeholder="Ask about my skills..." (keyup.enter)="sendMessage(chatInput)">
-        
-        <!-- NEW: Voice Input Button -->
-        <button class="mic-btn" (click)="startVoiceInput(chatInput)" [class.listening]="isListening" title="Speak your question">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <button class="mic-btn" (click)="startVoiceInput(chatInput)" [class.listening]="isListening"
+          title="Speak your question">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
             <line x1="12" y1="19" x2="12" y2="23"></line>
             <line x1="8" y1="23" x2="16" y2="23"></line>
           </svg>
         </button>
-
         <button class="send-btn" (click)="sendMessage(chatInput)">
-          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- =========================================
-       LIVE THEME CUSTOMIZER (BOTTOM LEFT)
-       ========================================= -->
+  <!-- LIVE THEME CUSTOMIZER -->
   <div class="theme-customizer-floating">
     <div class="theme-panel-floating" [class.open]="isSettingsOpen">
-      
       <h4>Accent Colors</h4>
       <div class="theme-options">
         @for (theme of themes; track theme.name) {
-          <button class="color-swatch" [style.background]="theme.color" (click)="changeTheme(theme)" [title]="theme.name"></button>
+        <button class="color-swatch" [style.background]="theme.color" (click)="changeTheme(theme)"
+          [title]="theme.name"></button>
         }
-        
-        <!-- NEW: Custom Native Color Picker -->
-        <label class="color-swatch custom-color-picker" title="Choose Custom Color">
-          <input type="color" (input)="onCustomColorChange($event)" value="#2DD4BF">
-        </label>
+        <label class="color-swatch custom-color-picker" title="Choose Custom Color"><input type="color"
+            (input)="onCustomColorChange($event)" value="#2DD4BF"></label>
       </div>
-
       <h4 style="margin-top: 1.5rem;">Backgrounds</h4>
       <div class="theme-options">
         @for (bg of backgrounds; track bg.name) {
-          <button class="color-swatch" [style.background]="bg.main" (click)="changeBackground(bg)" [title]="bg.name" style="border-radius: 8px;"></button>
+        <button class="color-swatch" [style.background]="bg.main" (click)="changeBackground(bg)" [title]="bg.name"
+          style="border-radius: 8px;"></button>
         }
-        
-        <!-- NEW: Custom Native Background Picker -->
-        <label class="color-swatch custom-bg-picker" title="Choose Custom Background" style="border-radius: 8px;">
-          <input type="color" (input)="onCustomBgChange($event)" value="#0f172a">
-        </label>
+        <label class="color-swatch custom-bg-picker" title="Choose Custom Background" style="border-radius: 8px;"><input
+            type="color" (input)="onCustomBgChange($event)" value="#0f172a"></label>
       </div>
       <h4 style="margin-top: 1.5rem;">Typography</h4>
       <div class="font-options">
         @for (font of fonts; track font.name) {
-          <button class="font-btn" (click)="changeFont(font)">{{ font.name }}</button>
+        <button class="font-btn" (click)="changeFont(font)">{{ font.name }}</button>
         }
       </div>
     </div>
-    
     <button class="theme-toggle-btn" (click)="toggleSettings()" [class.active]="isSettingsOpen">
-      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" class="gear-icon"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+      <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none"
+        class="gear-icon">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path
+          d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+        </path>
+      </svg>
     </button>
   </div>
 </div>
