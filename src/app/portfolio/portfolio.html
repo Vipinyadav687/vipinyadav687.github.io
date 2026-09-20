@@ -679,28 +679,45 @@
 
   </main>
 
-  <!-- =========================================
+ <!-- =========================================
        GOD-TIER EXPERIMENTAL AI PANEL
        ========================================= -->
   <div class="experimental-ai-panel">
-    <h3 class="panel-title">Experimental Tech Limits</h3>
-    
-    <!-- Chaos Monkey -->
-    <!-- <button class="danger-btn" (click)="triggerChaosMonkey()">
-      ☠️ Simulate DOM Cyber Attack
-    </button> -->
-    
-    <!-- Jedi Motion Tracking -->
-    <button class="jedi-btn" (click)="enableJediMode()" [class.active]="isJediModeActive">
-      👋 {{ isJediModeActive ? 'Disable' : 'Enable' }} Hand Gestures
-    </button>
+    <button class="jedi-btn" (click)="enableJediMode()" [class.active]="isJediModeActive" title="Hand Tracking">👋 Hand Tracking</button>
+    <button class="jedi-btn" (click)="toggleEmotionAI()" [class.active]="isEmotionActive" title="Emotion AI">{{ isEmotionActive ? '🧠 Tracking' : '😐 Emotion AI' }}</button>
+    <button class="jedi-btn" (click)="toggleTelekinesis()" [class.active]="isTelekinesisActive" title="Eye Tracking">👁️ Telekinesis</button>
+    <button class="jedi-btn" (click)="simulateWasmTranscription()" [class.active]="isWasmListening" title="WASM Subtitles">🎙️ WASM Subs</button>
     
     <div class="webcam-container" [class.show]="isJediModeActive">
       <video #webcamVideo autoplay playsinline muted></video>
       <div class="webcam-overlay">{{ jediFeedback }}</div>
     </div>
   </div>
+<!-- =========================================
+       TELEKINESIS GAZE CURSOR
+       ========================================= -->
+  @if (isTelekinesisActive) {
+    <div class="gaze-cursor" [style.left.px]="gazeX" [style.top.px]="gazeY">
+      <div class="gaze-ring" [class.focusing]="isGazeClicking"></div>
+      <div class="gaze-dot"></div>
+    </div>
+  }
 
+  <!-- =========================================
+       WASM EDGE-COMPUTED SUBTITLES
+       ========================================= -->
+  @if (isWasmListening) {
+    <div class="cinematic-subtitle-container">
+      <div class="wasm-memory-readout">{{ wasmMemoryText }}</div>
+      <h1 class="cinematic-text">{{ cinematicSubtitle }}</h1>
+    </div>
+  }
+  
+  <!-- Hook a trigger for the WASM subtitles into your Jarvis button -->
+  <!-- (Add this temporary button next to your Jarvis mic button to test it easily) -->
+  <!-- <button class="mock-btn" style="position: fixed; bottom: 20px; left: 20px; z-index: 10000; width: auto;" (click)="simulateWasmTranscription()">
+    🎙️ Test WASM Subtitles
+  </button> -->
   <!-- Chaos Monkey Fullscreen Alert -->
   @if (isChaosActive) {
     <div class="chaos-overlay">

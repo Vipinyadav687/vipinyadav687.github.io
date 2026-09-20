@@ -1259,4 +1259,109 @@ export class PortfolioComponent implements OnInit {
       this.simulatedStatus = 'Optimal Multi-Node Scaling';
     }
   }
+  // =========================================
+  // --- 1. AFFECTIVE COMPUTING (EMOTION AI) ---
+  // =========================================
+  isEmotionActive: boolean = false;
+  currentMood: string = 'Analyzing...';
+  emotionInterval: any;
+
+  toggleEmotionAI() {
+    this.isEmotionActive = !this.isEmotionActive;
+    if (this.isEmotionActive) {
+      this.currentMood = 'Calibrating Facial Tensors...';
+      this.emotionInterval = setInterval(() => {
+        const moods = [
+          { name: 'Focused', color: '#8b5cf6', desc: 'Slowing animations, dimming UI for reading.' },
+          { name: 'Intrigued', color: '#f59e0b', desc: 'Highlighting interactive elements.' },
+          { name: 'Impressed', color: '#10B981', desc: 'Increasing vibrancy and animation speed.' }
+        ];
+        const mood = moods[Math.floor(Math.random() * moods.length)];
+        this.currentMood = `Mood: ${mood.name} (${(Math.random() * 5 + 94).toFixed(1)}%)`;
+        
+        // Dynamically inject the mood color into the CSS root
+        document.documentElement.style.setProperty('--primary', mood.color);
+        this.cdr.detectChanges();
+      }, 4000); // Change mood every 4 seconds
+    } else {
+      clearInterval(this.emotionInterval);
+      this.currentMood = 'Emotion Tracking Off';
+      document.documentElement.style.setProperty('--primary', '#2DD4BF'); // Reset to default Teal
+    }
+  }
+
+  // =========================================
+  // --- 2. TELEKINESIS EYE-TRACKING ---
+  // =========================================
+  isTelekinesisActive: boolean = false;
+  gazeX: number = -100; 
+  gazeY: number = -100;
+  hoverTimer: any;
+  isGazeClicking: boolean = false;
+
+  toggleTelekinesis() {
+    this.isTelekinesisActive = !this.isTelekinesisActive;
+  }
+
+  // For the portfolio flex, we use mouse coordinates to proxy the eye-tracker.
+  // In a real implementation, this data streams from WebGazer.js.
+  @HostListener('document:mousemove', ['$event'])
+  onGazeMove(event: MouseEvent) {
+    if (!this.isTelekinesisActive) return;
+    this.gazeX = event.clientX;
+    this.gazeY = event.clientY;
+
+    // Auto-Scroll if looking at the bottom or top 10% of the screen
+    const windowHeight = window.innerHeight;
+    const contentArea = document.querySelector('.content-area');
+    if (this.gazeY > windowHeight * 0.9) contentArea?.scrollBy({ top: 10, behavior: 'auto' });
+    if (this.gazeY < windowHeight * 0.1) contentArea?.scrollBy({ top: -10, behavior: 'auto' });
+
+    // Simulate Dwell-Clicking (Staring at an element to click it)
+    clearTimeout(this.hoverTimer);
+    this.isGazeClicking = false;
+    
+    const target = document.elementFromPoint(this.gazeX, this.gazeY) as HTMLElement;
+    if (target && (target.tagName === 'BUTTON' || target.closest('.project-card'))) {
+      this.isGazeClicking = true;
+      this.hoverTimer = setTimeout(() => {
+        target.click(); // Physically trigger the click after 1.5s of staring
+        this.isGazeClicking = false;
+        this.cdr.detectChanges();
+      }, 1500);
+    }
+  }
+
+  // =========================================
+  // --- 3. WASM EDGE-COMPUTED SUBTITLES ---
+  // =========================================
+  isWasmListening: boolean = false;
+  cinematicSubtitle: string = '';
+  wasmMemoryText: string = 'WASM Buffer: 0x0000';
+
+  simulateWasmTranscription() {
+    if (this.isWasmListening) return;
+    this.isWasmListening = true;
+    
+    const script = "I am looking for a highly scalable enterprise architecture. The backend must handle ten thousand concurrent users seamlessly.";
+    let i = 0;
+    this.cinematicSubtitle = '';
+    
+    // Simulate raw Edge computing buffer stream
+    const streamInterval = setInterval(() => {
+      this.wasmMemoryText = `WASM Buffer: 0x${Math.floor(Math.random()*16777215).toString(16).toUpperCase()} | Tensor: active`;
+      this.cinematicSubtitle += script.charAt(i);
+      i++;
+      this.cdr.detectChanges();
+
+      if (i >= script.length) {
+        clearInterval(streamInterval);
+        setTimeout(() => {
+          this.isWasmListening = false;
+          this.cinematicSubtitle = '';
+          this.cdr.detectChanges();
+        }, 3000);
+      }
+    }, 40); // 40ms per character to simulate rapid transcription
+  }
 }
