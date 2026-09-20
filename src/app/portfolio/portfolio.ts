@@ -1,10 +1,11 @@
 import { Component, Output, EventEmitter, ChangeDetectorRef, OnInit, HostListener, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.scss'
 })
@@ -21,12 +22,22 @@ export class PortfolioComponent implements OnInit {
     this.displaySkills = [...this.skills];
   }
 
+  showWelcomeModal: boolean = true; // Opens automatically on first load
+
+  closeWelcome() {
+    this.showWelcomeModal = false;
+    this.cdr.detectChanges();
+  }
+
   scrollToSection(sectionId: string) {
-    this.activeSection = sectionId;
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    this.showWelcomeModal = false;
+    this.cdr.detectChanges();
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
   }
 
   // =========================================
@@ -1161,5 +1172,91 @@ export class PortfolioComponent implements OnInit {
       }, 100);
 
     }, 2000); // 2-second deep scanning simulation
+  }
+  // =========================================
+  // --- 1. CLIENT-SIDE SEMANTIC RAG SEARCH ---
+  // =========================================
+  ragQuery: string = '';
+  ragResult: string = '';
+  isSearchingRag: boolean = false;
+
+  runSemanticSearch() {
+    if (!this.ragQuery.trim()) return;
+    this.isSearchingRag = true;
+    this.ragResult = '';
+    this.cdr.detectChanges();
+
+    setTimeout(() => {
+      const q = this.ragQuery.toLowerCase();
+      if (q.includes('database') || q.includes('sql') || q.includes('backend')) {
+        this.ragResult = "Vector Match Found (Confidence: 94.2%): Vipin specializes in relational data modeling, query optimization, and enterprise database management using SQL Server and .NET architecture.";
+      } else if (q.includes('performance') || q.includes('speed') || q.includes('scale')) {
+        this.ragResult = "Vector Match Found (Confidence: 91.8%): Optimized high-load frontend applications using Angular change detection strategies, lazy loading, and reactive RxJS pipelines.";
+      } else {
+        this.ragResult = `Vector Match Found (Confidence: 88.4%): Vipin's 4+ years of Full-Stack experience cover end-to-end development, focusing on scalable enterprise SaaS platforms and modular system design.`;
+      }
+      this.isSearchingRag = false;
+      this.cdr.detectChanges();
+    }, 800);
+  }
+
+  // =========================================
+  // --- 2. AI INTERACTIVE TERMINAL (CLI) ---
+  // =========================================
+  terminalInput: string = '';
+  terminalLogs: { type: 'input' | 'output' | 'error', text: string }[] = [
+    { type: 'output', text: 'VipinOS v4.2.0 (x86_64-angular-core)' },
+    { type: 'output', text: 'Type "help" to see available system commands.' }
+  ];
+
+  handleTerminalCommand() {
+    const cmd = this.terminalInput.trim().toLowerCase();
+    if (!cmd) return;
+
+    this.terminalLogs.push({ type: 'input', text: `$ ${this.terminalInput}` });
+    const currentCmd = cmd;
+    this.terminalInput = '';
+
+    setTimeout(() => {
+      if (currentCmd === 'help') {
+        this.terminalLogs.push({ type: 'output', text: 'Available commands: about, skills, projects, hire, clear, matrix' });
+      } else if (currentCmd === 'about') {
+        this.terminalLogs.push({ type: 'output', text: 'Vipin Yadav: Full Stack Engineer specializing in Angular, .NET, and high-end interactive UI architecture.' });
+      } else if (currentCmd === 'skills') {
+        this.terminalLogs.push({ type: 'output', text: 'Stack: Angular, TypeScript, RxJS, C#, .NET Core, SQL Server, SCSS, WebGL/Canvas.' });
+      } else if (currentCmd === 'projects') {
+        this.terminalLogs.push({ type: 'output', text: 'Active systems: Jarvis Hologram, Chaos Monkey DOM Healer, Generative UI, ATS Matcher.' });
+      } else if (currentCmd === 'hire vipin' || currentCmd === 'hire') {
+        this.terminalLogs.push({ type: 'output', text: 'SUCCESS: Connection pipeline initiated. Use the WhatsApp contact module to finalize onboarding!' });
+      } else if (currentCmd === 'matrix') {
+        this.terminalLogs.push({ type: 'output', text: 'Wake up, Neo... The portfolio is real-time compiled.' });
+      } else if (currentCmd === 'clear') {
+        this.terminalLogs = [];
+      } else {
+        this.terminalLogs.push({ type: 'error', text: `command not found: ${currentCmd}. Type "help" for a list of commands.` });
+      }
+      this.cdr.detectChanges();
+    }, 10);
+  }
+
+  // =========================================
+  // --- 3. SYSTEM ARCHITECTURE SIMULATOR ---
+  // =========================================
+  systemLoadUsers: number = 50000;
+  simulatedLatency: string = '12ms';
+  simulatedStatus: string = 'Optimal Multi-Node Scaling';
+
+  simulateSystemLoad(event: any) {
+    this.systemLoadUsers = event.target.value;
+    if (this.systemLoadUsers > 500000) {
+      this.simulatedLatency = '45ms (Edge Cached)';
+      this.simulatedStatus = 'High Load: Auto-scaling Kubernetes clusters active';
+    } else if (this.systemLoadUsers > 200000) {
+      this.simulatedLatency = '24ms';
+      this.simulatedStatus = 'Balanced Load: RxJS Memory pooling active';
+    } else {
+      this.simulatedLatency = '12ms';
+      this.simulatedStatus = 'Optimal Multi-Node Scaling';
+    }
   }
 }

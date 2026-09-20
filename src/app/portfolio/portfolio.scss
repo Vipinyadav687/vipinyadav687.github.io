@@ -661,3 +661,88 @@ h1, h2, h3, h4, .name-text, .gradient-text { font-family: var(--font-main); }
     bottom: 110%; /* Makes the webcam pop UP instead of down */
   }
 }
+
+/* =========================================
+   17. VECTOR RAG, CLI TERMINAL, & SIMULATOR
+   ========================================= */
+
+/* Vector RAG */
+.rag-box { background: rgba(var(--bg-secondary-rgb), 0.3); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; }
+.rag-output-card { margin-top: 1.5rem; background: #1e1e1e; border: 1px solid var(--primary); border-radius: 10px; padding: 1.25rem; color: #10B981; font-family: 'Fira Code', monospace; font-size: 0.9rem; animation: fadeIn 0.4s ease; box-shadow: 0 10px 25px rgba(var(--primary-rgb), 0.15); }
+
+/* Interactive Terminal */
+.terminal-window { background: #121212; border: 1px solid #333; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.5); font-family: 'Fira Code', 'Consolas', monospace; }
+.terminal-body { padding: 1.5rem; min-height: 180px; max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.5rem; }
+.term-line { color: #d4d4d4; font-size: 0.85rem; line-height: 1.4; }
+.error-line { color: #ef4444; }
+.term-input-row { display: flex; align-items: center; gap: 8px; margin-top: 0.5rem; color: var(--primary); font-weight: bold; 
+  input { flex: 1; background: transparent; border: none; color: #fff; font-family: inherit; font-size: 0.85rem; outline: none; }
+}
+
+/* System Architecture Simulator */
+.simulator-card { background: rgba(var(--bg-secondary-rgb), 0.3); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; 
+  .sim-slider-row { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; color: var(--text-main); font-size: 0.95rem; 
+    .sim-range { width: 100%; accent-color: var(--primary); cursor: pointer; }
+  }
+  .sim-metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .metric-box { background: rgba(var(--bg-main-rgb), 0.6); border: 1px solid var(--border-color); border-radius: 10px; padding: 1.25rem; text-align: center; 
+    span { display: block; color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; margin-bottom: 0.4rem; font-weight: 600; }
+    strong { color: var(--text-main); font-size: 1.1rem; }
+  }
+}
+
+@media (max-width: 1024px) {
+  .sim-metrics-grid { grid-template-columns: 1fr; }
+}
+/* =========================================
+   18. WELCOME TOUR DISCOVERY MODAL
+   ========================================= */
+.welcome-overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); z-index: 999999; display: flex; align-items: center; justify-content: center; padding: 1.5rem; animation: fadeIn 0.4s ease;
+}
+
+.welcome-modal {
+  background: linear-gradient(145deg, rgba(var(--bg-secondary-rgb), 0.95) 0%, rgba(var(--bg-main-rgb), 0.98) 100%);
+  border: 1px solid var(--primary); border-radius: 20px; padding: 2.5rem; max-width: 600px; width: 100%; box-shadow: 0 25px 60px rgba(var(--primary-rgb), 0.25); text-align: center; position: relative;
+
+  .pulse-badge { background: rgba(var(--primary-rgb), 0.15); color: var(--primary); border: 1px solid rgba(var(--primary-rgb), 0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 1rem; }
+  
+  h2 { color: var(--text-main); font-size: 1.8rem; margin: 0 0 0.75rem 0; font-weight: 800; }
+  p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; margin-bottom: 2rem; }
+}
+
+.feature-grid-quick { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; text-align: left; }
+
+.quick-card {
+  background: rgba(var(--bg-main-rgb), 0.6); border: 1px solid var(--border-color); border-radius: 12px; padding: 1rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.3s ease;
+  
+  &:hover { border-color: var(--primary); background: rgba(var(--primary-rgb), 0.08); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+  
+  .q-icon { font-size: 1.5rem; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(var(--border-color), 0.5); border-radius: 10px; flex-shrink: 0; }
+  
+  h4 { color: var(--text-main); font-size: 0.9rem; margin: 0 0 0.2rem 0; font-weight: 700; }
+  p { color: var(--text-muted); font-size: 0.75rem; margin: 0; line-height: 1.3; }
+}
+
+.explore-btn { width: 100%; justify-content: center; margin-bottom: 0 !important; }
+
+@media (max-width: 768px) {
+  .feature-grid-quick { grid-template-columns: 1fr; }
+  .welcome-modal { padding: 1.5rem; }
+}
+/* Jarvis Hologram Canvas & Mic Icon */
+.hologram-btn { 
+  position: relative; 
+  overflow: hidden; 
+  border-radius: 50%; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  .jarvis-mic-icon {
+    position: relative;
+    z-index: 6; /* Sits cleanly on top of the canvas */
+    pointer-events: none;
+  }
+}
+.hologram-canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 5; pointer-events: none; mix-blend-mode: screen; }

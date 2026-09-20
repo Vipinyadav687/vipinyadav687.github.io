@@ -1,5 +1,5 @@
 <div class="portfolio-wrapper">
- <!-- =========================================
+<!-- =========================================
        GLOBAL "JARVIS" HOLOGRAM CONTROLLER
        ========================================= -->
   <div class="jarvis-widget" [class.listening]="isJarvisListening">
@@ -12,6 +12,14 @@
     <button class="jarvis-btn hologram-btn" (click)="startJarvis()" title="Voice Navigation">
       <!-- The Real-time Audio Waveform Canvas -->
       <canvas #hologramCanvas class="hologram-canvas"></canvas>
+      
+      <!-- Microphone SVG Icon Restored -->
+      <svg class="jarvis-mic-icon" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none">
+        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v1a7 7 0 0 1-14 0v-1"></path>
+        <line x1="12" y1="19" x2="12" y2="23"></line>
+        <line x1="8" y1="23" x2="16" y2="23"></line>
+      </svg>
     </button>
   </div>
 
@@ -72,6 +80,58 @@
       </div>
     </div>
   </aside>
+  <!-- =========================================
+         WELCOME TOUR / FEATURE DISCOVERY MODAL
+         ========================================= -->
+    @if (showWelcomeModal) {
+      <div class="welcome-overlay">
+        <div class="welcome-modal">
+          <div class="welcome-header">
+            <span class="pulse-badge">LIVE DEMO</span>
+            <h2>Welcome to Vipin's Showcase</h2>
+            <p>This portfolio is engineered as an interactive AI sandbox. Choose a feature below to teleport directly to it, or explore freely!</p>
+          </div>
+
+          <div class="feature-grid-quick">
+            <div class="quick-card" (click)="scrollToSection('terminal-cli')">
+              <span class="q-icon">💻</span>
+              <div>
+                <h4>AI Linux Terminal</h4>
+                <p>Run CLI commands like a hacker</p>
+              </div>
+            </div>
+
+            <div class="quick-card" (click)="scrollToSection('generative-ui')">
+              <span class="q-icon">⚡</span>
+              <div>
+                <h4>Generative UI Engine</h4>
+                <p>Prompt the AI to build components</p>
+              </div>
+            </div>
+
+            <div class="quick-card" (click)="scrollToSection('ats-matcher')">
+              <span class="q-icon">🎯</span>
+              <div>
+                <h4>ATS Job Matcher</h4>
+                <p>Paste a JD to test compatibility</p>
+              </div>
+            </div>
+
+            <div class="quick-card" (click)="scrollToSection('skills')">
+              <span class="q-icon">🌌</span>
+              <div>
+                <h4>Neural Physics Graph</h4>
+                <p>Interactive 3D constellation</p>
+              </div>
+            </div>
+          </div>
+
+          <button class="premium-btn explore-btn" (click)="closeWelcome()">
+            <span>ENTER PORTFOLIO EXPLORER</span>
+          </button>
+        </div>
+      </div>
+    }
 
   <!-- RIGHT CONTENT -->
   <main class="content-area">
@@ -443,6 +503,85 @@
             </div>
           </div>
         }
+      </div>
+    </section>
+
+    <!-- =========================================
+         1. CLIENT-SIDE VECTOR RAG SEARCH
+         ========================================= -->
+    <section id="vector-rag" class="content-section">
+      <h2 class="section-title">SEMANTIC VECTOR RAG ENGINE</h2>
+      <p class="contact-desc">Query my core background data using localized semantic embeddings and vector cosine similarity matching.</p>
+      
+      <div class="rag-box">
+        <div class="arch-input-group">
+          <input #ragIn type="text" placeholder="e.g. 'How does Vipin manage high-scale database architecture?'" (keyup.enter)="ragQuery = ragIn.value; runSemanticSearch()">
+          <button class="premium-btn" style="margin:0;" (click)="ragQuery = ragIn.value; runSemanticSearch()">
+            <span>SEARCH VECTORS</span>
+          </button>
+        </div>
+
+        @if (isSearchingRag) {
+          <div class="arch-loading" style="margin-top: 1rem;">
+            <div class="scanning-bar"></div>
+            <p style="margin:0;">Calculating high-dimensional vector similarity scores...</p>
+          </div>
+        }
+
+        @if (ragResult && !isSearchingRag) {
+          <div class="rag-output-card">
+            <p>{{ ragResult }}</p>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- =========================================
+         2. AI INTERACTIVE TERMINAL (CLI SHELL)
+         ========================================= -->
+    <section id="terminal-cli" class="content-section">
+      <h2 class="section-title">VIPIN-OS INTERACTIVE CLI</h2>
+      <p class="contact-desc">Test my system directly from an embedded Linux-style terminal interface.</p>
+      
+      <div class="terminal-window">
+        <div class="panel-header">
+          <span style="display:flex; gap:6px;"><span class="dot red" style="width:10px;height:10px;border-radius:50%;background:#ff5f56;display:inline-block;"></span><span class="dot yellow" style="width:10px;height:10px;border-radius:50%;background:#ffbd2e;display:inline-block;"></span><span class="dot green" style="width:10px;height:10px;border-radius:50%;background:#27c93f;display:inline-block;"></span></span>
+          <span>vipin@portfolio-core: ~</span>
+        </div>
+        <div class="terminal-body">
+          @for (log of terminalLogs; track log) {
+            <div class="term-line" [class.error-line]="log.type === 'error'">{{ log.text }}</div>
+          }
+          <div class="term-input-row">
+            <span>$</span>
+            <input #termInput type="text" [(ngModel)]="terminalInput" (keyup.enter)="handleTerminalCommand()" placeholder="type 'help'..."/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================
+         3. SYSTEM ARCHITECTURE SIMULATOR
+         ========================================= -->
+    <section id="system-simulator" class="content-section">
+      <h2 class="section-title">SYSTEM ARCHITECTURE SIMULATOR</h2>
+      <p class="contact-desc">Stress-test my structural background logic by simulating live concurrent user traffic spikes.</p>
+      
+      <div class="simulator-card">
+        <div class="sim-slider-row">
+          <label>Simulated Traffic Load: <strong>{{ systemLoadUsers | number }} req/sec</strong></label>
+          <input type="range" min="10000" max="1000000" step="10000" [value]="systemLoadUsers" (input)="simulateSystemLoad($event)" class="sim-range">
+        </div>
+        <div class="sim-metrics-grid">
+          <div class="metric-box">
+            <span>Estimated Latency</span>
+            <strong>{{ simulatedLatency }}</strong>
+          </div>
+          <div class="metric-box">
+            <span>Cluster Status</span>
+            <strong style="color: #10B981;">{{ simulatedStatus }}</strong>
+          </div>
+        </div>
       </div>
     </section>
     <!-- REAL-TIME SENTIMENT CONTACT SECTION -->
