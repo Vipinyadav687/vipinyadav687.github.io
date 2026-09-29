@@ -4,7 +4,7 @@
        ========================================= -->
   <div class="jarvis-widget" [class.listening]="isJarvisListening">
     @if (!isJarvisListening && !jarvisFeedback) {
-      <div class="jarvis-hint">Press <strong>Shift + V</strong> to talk</div>
+      <div class="jarvis-hint" style="font-size: 10px;">Press <strong>Shift + V</strong> to talk</div>
     }
     @if (jarvisFeedback) {
       <div class="jarvis-tooltip">{{ jarvisFeedback }}</div>
